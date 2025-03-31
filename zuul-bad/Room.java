@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Set;
+
 /**
  * Class Room - a room in an adventure game.
  *
@@ -14,11 +17,14 @@
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
+    private String description;
+    private Room northExit;
+    private Room southExit;
+    private Room eastExit;
+    private Room westExit;
+    private Room upExit;
+    private Room downExit;
+    private HashMap<String, Room> exits;
 
     /**
      * Create a room described "description". Initially, it has
@@ -29,6 +35,7 @@ public class Room
     public Room(String description) 
     {
         this.description = description;
+        exits = new HashMap<String, Room>();
     }
 
     /**
@@ -39,19 +46,31 @@ public class Room
      * @param south The south exit.
      * @param west The west exit.
      */
-    public void setExits(Room north, Room east, Room south, Room west) 
+    public void setExits(Room north, Room east, Room south, Room west, Room up, Room down) 
     {
         if(north != null) {
             northExit = north;
+            exits.put("north", north);
         }
         if(east != null) {
             eastExit = east;
+            exits.put("east", east);
         }
         if(south != null) {
             southExit = south;
+            exits.put("south", south);
         }
         if(west != null) {
             westExit = west;
+            exits.put("west", west);
+        }
+        if(up != null) {
+            upExit = up;
+            exits.put("up", up);
+        }
+        if(down != null) {
+            downExit = down;
+            exits.put("down", down);
         }
     }
 
@@ -63,4 +82,21 @@ public class Room
         return description;
     }
 
+    public Room getExit(String exit)
+    {
+        return exits.get(exit);
+    }
+    
+    public String getExits()
+    {
+        String exitString = "";
+        Set<String> keys = exits.keySet();
+        
+        for (String exit : keys)
+        {
+            exitString += exit + " ";
+        }
+                
+        return exitString;
+    }
 }
