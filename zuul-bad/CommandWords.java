@@ -13,15 +13,15 @@ public class CommandWords
 {
     // a constant array that holds all valid command words
     private static final String[] validCommands = {
-        "go", "quit", "help"
+        "go", "quit", "help", "look", "jump"
     };
-
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords()
     {
-        // nothing to do at the moment...
+        
+    
     }
 
     /**
@@ -38,4 +38,12 @@ public class CommandWords
         // if we get here, the string was not found in the commands
         return false;
     }
+    
+    public String getCommandList(){
+        String validCommandString= "";
+        for(String command : validCommands){
+            validCommandString = validCommandString + command + " ";
+        }
+        return validCommandString;
+}
 }

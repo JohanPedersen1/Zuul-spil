@@ -45,17 +45,32 @@ public class Game
         storage = new Room("in a room filled with stuff");
         tower = new Room("in a tower");
         cellar = new Room("in a dark and creepy cellar");
-        
 
-        // initialise room exits
-        outside.setExits(null, theater, lab, pub, null, null);
-        theater.setExits(null, null, office, outside, tower, null);
-        pub.setExits(null, outside, storage, null, null, null);
-        lab.setExits(outside, office, null, storage, null, null);
-        office.setExits(theater, null, null, lab, null, null);
-        storage.setExits(pub, lab, null, null, null, cellar);
-        tower.setExits(null, null, null, null, null, theater);
-        cellar.setExits(null, null, null, null, storage, null);
+        outside.setExits("east", theater);
+        outside.setExits("south", lab);
+        outside.setExits("west", pub);
+
+        theater.setExits("south", office);
+        theater.setExits("west", outside);
+        theater.setExits("up", tower);
+
+        lab.setExits("north",outside);
+        lab.setExits("east",office);
+        lab.setExits("west",storage);
+
+        pub.setExits("east", outside);
+        pub.setExits("south", storage);
+
+        office.setExits("north", theater);
+        office.setExits("west", lab);
+
+        storage.setExits("north", pub);
+        storage.setExits("west", lab);
+        storage.setExits("down", cellar);
+
+        tower.setExits("down", theater);
+
+        cellar.setExits("up", storage);
 
         currentRoom = outside;  // start game outside
     }
@@ -88,8 +103,8 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
-        System.out.print("Exits: ");
+        // System.out.println("You are " + currentRoom.getDescription());
+        // System.out.print("Exits: ");
         if(currentRoom.getExit("north") != null) {
             System.out.print("north ");
         }
@@ -132,8 +147,15 @@ public class Game
         else if (commandWord.equals("go")) {
             goRoom(command);
         }
+        else if(commandWord.equals("look")) {
+            look();
+        }
+
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
+        }
+        else if (commandWord.equals("jump")) {
+            jump();
         }
 
         return wantToQuit;
@@ -152,7 +174,17 @@ public class Game
         System.out.println("around at the university.");
         System.out.println();
         System.out.println("Your command words are:");
-        System.out.println("   go quit help");
+       // String s = parser.getAllCommands();
+        System.out.println(parser.getAllCommands());
+    }
+
+    private void look(){
+        System.out.println(currentRoom.getLongDescription());
+    }
+    
+    private void jump(){
+        System.out.println("You have jumped for no apparent reason");
+        
     }
 
     /** 
@@ -218,9 +250,11 @@ public class Game
 
     private void printLocationInfo()
     {
-        System.out.println("You are " + currentRoom.getDescription());
+        System.out.println(currentRoom.getLongDescription());
         System.out.print("Exits:" + currentRoom.getExits());
-        
+
         System.out.println();
     }
+    
+    
 }
