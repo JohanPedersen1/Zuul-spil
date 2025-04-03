@@ -46,8 +46,8 @@ public class Room
      * @param south The south exit.
      * @param west The west exit.
      */
-    public void setExits(String direction, Room Neighbor){
-        exits.put(direction, Neighbor);
+    public void setExits(String direction, Room exit){
+        exits.put(direction, exit);
     }
 
     /**
@@ -58,9 +58,9 @@ public class Room
         return description;
     }
 
-    public Room getExit(String exit)
+    public Room getExit(String direction)
     {
-        return exits.get(exit);
+        return exits.get(direction);
     }
     
     public String getExitString(){
@@ -81,6 +81,14 @@ public class Room
         {
             exitString += "west";
         }
+        if (upExit != null)
+        {
+            exitString += "up";
+        }
+        if (downExit != null)
+        {
+            exitString += "down";
+        }
         return exitString;
     }
     
@@ -90,6 +98,7 @@ public class Room
         String returnString = "";
         //Keyset returns keys stored in map.
         Set<String> keys = exits.keySet();
+        
         for (String exit : keys)
         {
             returnString += " " + exit;
